@@ -7,9 +7,10 @@ Running Tests
 Everything
 ==========
 
-The simplest way to get up and running with Haystack's tests is to run::
+The simplest way to get up and running with Haystack's tests is to run:
 
-    python setup.py test
+    pip install .[testing]
+    python -m test_haystack.run_tests
 
 This installs all of the backend libraries & all dependencies for getting the
 tests going and runs the tests. You will still have to setup search servers
@@ -30,6 +31,7 @@ To run just a portion of the tests you can use the script ``run_tests.py`` and
 just specify the files or directories you wish to run, for example::
 
     python test_haystack/run_tests.py whoosh_tests test_loading.py
+    python -m test_haystack.run_tests test_haystack.whoosh_tests
 
 The ``run_tests.py`` script is just a tiny wrapper around the Django test
 command and any options you pass to it will be passed on; including ``--help``
@@ -46,6 +48,8 @@ uses the schema and configuration provided in the
 provided which will download, configure and start a test Solr server::
 
     test_haystack/solr_tests/server/start-solr-test-server.sh
+    pip install pysolr
+    docker run -d -p 9001:8983 --name solr solr:10-slim
 
 If no server is found all solr-related tests will be skipped.
 
@@ -55,12 +59,16 @@ Configuring Elasticsearch
 The test suite will try to connect to Elasticsearch on port ``9200``. If no
 server is found all elasticsearch tests will be skipped. Note that the tests
 are destructive - during the teardown phase they will wipe the cluster clean so
-make sure you don't run them against an instance with data you wish to keep.
+make sure you don't run them against an instance with data you wish to keep. A
+temporary Docker instance can be created for the tests:
+
+	docker run -d -p 9200:9200 --name elasticsearch -e discovery.type=single-node elasticsearch:7.17.28
 
 If you want to run the geo-django tests you may need to review the
 `GeoDjango GEOS and GDAL settings`_ before running these commands::
 
+	pip install "elasticsearch>=7.0.0,<8.0.0"
 	cd test_haystack
-	./run_tests.py elasticsearch_tests
+	./run_tests.py elasticsearch7_tests
 
 .. _GeoDjango GEOS and GDAL settings: https://docs.djangoproject.com/en/stable/ref/contrib/gis/install/geolibs/#geos-library-path
