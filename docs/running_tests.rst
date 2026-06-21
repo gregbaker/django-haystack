@@ -30,8 +30,7 @@ the errors persist.
 To run just a portion of the tests you can use the script ``run_tests.py`` and
 just specify the files or directories you wish to run, for example::
 
-    python test_haystack/run_tests.py whoosh_tests test_loading.py
-    python -m test_haystack.run_tests test_haystack.whoosh_tests
+    python test_haystack/run_tests.py test_haystack/whoosh_tests test_haystack/test_loading.py
 
 The ``run_tests.py`` script is just a tiny wrapper around the Django test
 command and any options you pass to it will be passed on; including ``--help``
@@ -68,7 +67,6 @@ If you want to run the geo-django tests you may need to review the
 `GeoDjango GEOS and GDAL settings`_ before running these commands::
 
 	pip install "elasticsearch>=7.0.0,<8.0.0"
-	cd test_haystack
-	./run_tests.py elasticsearch7_tests
+	python test_haystack/run_tests.py test_haystack/elasticsearch7_tests
 
 .. _GeoDjango GEOS and GDAL settings: https://docs.djangoproject.com/en/stable/ref/contrib/gis/install/geolibs/#geos-library-path
