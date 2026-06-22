@@ -108,4 +108,12 @@ if "elasticsearch" in HAYSTACK_CONNECTIONS:
                 }
             )
     except ImportError:
-        del HAYSTACK_CONNECTIONS["elasticsearch"]
+        try:
+            import opensearchpy
+            HAYSTACK_CONNECTIONS["elasticsearch"].update(
+                {
+                    "ENGINE": "haystack.backends.opensearch_backend.OpenSearchSearchEngine"
+                }
+            )
+        except ImportError:
+            del HAYSTACK_CONNECTIONS["elasticsearch"]

@@ -70,3 +70,6 @@ If you want to run the geo-django tests you may need to review the
 	python test_haystack/run_tests.py test_haystack/elasticsearch7_tests
 
 .. _GeoDjango GEOS and GDAL settings: https://docs.djangoproject.com/en/stable/ref/contrib/gis/install/geolibs/#geos-library-path
+
+pip install "elasticsearch>=7.0.0,<7.14.0"
+docker run -d -p 9200:9200 --name opensearch -e discovery.type=single-node -e DISABLE_SECURITY_PLUGIN=true opensearchproject/opensearch:3

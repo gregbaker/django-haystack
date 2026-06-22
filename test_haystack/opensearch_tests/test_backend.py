@@ -5,7 +5,7 @@ import pickle
 import unittest
 from decimal import Decimal
 
-import opensearchpy
+import elasticsearch
 from django.apps import apps
 from django.conf import settings
 from django.test import TestCase
@@ -25,7 +25,7 @@ from ..mocks import MockSearchResult
 
 def clear_elasticsearch_index():
     # Wipe it clean.
-    raw_es = opensearchpy.OpenSearch(
+    raw_es = elasticsearch.Elasticsearch(
         settings.HAYSTACK_CONNECTIONS["elasticsearch"]["URL"]
     )
     try:
@@ -33,7 +33,7 @@ def clear_elasticsearch_index():
             index=settings.HAYSTACK_CONNECTIONS["elasticsearch"]["INDEX_NAME"]
         )
         raw_es.indices.refresh()
-    except opensearchpy.TransportError:
+    except elasticsearch.TransportError:
         pass
 
     # Since we've just completely deleted the index, we'll reset setup_complete so the next access will
